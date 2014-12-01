@@ -18,8 +18,8 @@ git=$4
 cd /var/www
 
 # check if the project name exists and create it if not
-if [ ! -d "$project" ]; then
-  mkdir "$project"
+if [ ! -d "$project".com ]; then
+  mkdir "$project".com
 
   # on copie le rep du script d'install php (https://github.com/GeekPress/WP-Quick-Install)
   # j'ai ici renomé le dossier en wp-install et l'ai déposé à la racine du rep de publication
