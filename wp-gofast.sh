@@ -35,7 +35,7 @@ if [ ! -d "$project"."$domain" ]; then
   cp /etc/apache2/sites-available/base_wp /etc/apache2/sites-available/"$project"."$domain"
 
   # remplacement de BASE et DOMAINE dans le fichier créé
-  sed -i "s/BASE/"$project".com/g" /etc/apache2/sites-available/"$project"."$domain"
+  sed -i "s/BASE/""$project"".""$domain""/g" /etc/apache2/sites-available/"$project"."$domain"
 
   # activation du site
   cd /etc/apache2/sites-available/
