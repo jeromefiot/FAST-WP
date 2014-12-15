@@ -6,7 +6,6 @@
 #: Description : deploy wp on debian with virtualhost,MySqluser and bdd on base of this :
 #                https://github.com/GeekPress/WP-Quick-Install
 #: Usage       : $ wp-gofast project userSQL passwdSQL domain
-#                l'argument projet contient par defaut le domaine .com
 
 # argument shell
 project=$1
