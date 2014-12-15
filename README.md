@@ -11,7 +11,7 @@ USAGE
 3. Lancez le :
 "./wp-gofast project userSQL passwdSQL domain"
 
-Project : nom du projet
-userSQL : User Root MySQL
-passwdSQL : Password Root MySQL
+Project : nom du projet // 
+userSQL : User Root MySQL // 
+passwdSQL : Password Root MySQL //
 domain : extension du domaine
