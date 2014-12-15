@@ -22,7 +22,7 @@ if [ ! -d "$project"."$domain" ]; then
 
   # on copie le rep du script d'install php (https://github.com/GeekPress/WP-Quick-Install)
   # j'ai ici renomé le dossier en wp-install et l'ai déposé à la racine du rep de publication
-  cp -R /var/www/wp-install /var/www/"$1"."$domain"/
+  cp -R /var/www/wp-install /var/www/"$project"."$domain"/
 
   # on créé la base du nom du projet
   mysql -u "$user" -p"$passwd" -e "CREATE DATABASE "$project""
