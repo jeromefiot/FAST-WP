@@ -98,11 +98,11 @@ EOF
   sed -i "s/.com/""$domain""/g" /var/www/"$project"."$domain"/.htaccess
 
   # Ecrire un htaccess inactivant les php dans uploads
-  cat > /var/www/"$project"."$domain"/wp-content/uploads/.htaccess <<EOF
-<Files *.php>
-deny from all
-</Files>
-EOF
+  #cat > /var/www/"$project"."$domain"/wp-content/uploads/.htaccess <<EOF
+#<Files *.php>
+#deny from all
+#</Files>
+#EOF
 
 
   # ecrire un gitignore
