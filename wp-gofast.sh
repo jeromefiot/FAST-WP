@@ -3,27 +3,27 @@
 #: Date        : 2014-11-18
 #: Author      : @grominet
 #: Version     : 0.1
-#: Description : deploy wp on debian with virtualhost,MySql bdd and Git repo on
-#                https://github.com/GeekPress/WP-Quick-Install base
-#: Usage       : $ wp-gofast project userSQL passwdSQL userGIT
+#: Description : deploy wp on debian with virtualhost,MySqluser and bdd on base of this :
+#                https://github.com/GeekPress/WP-Quick-Install
+#: Usage       : $ wp-gofast project userSQL passwdSQL domain
 #                l'argument projet contient par defaut le domaine .com
 
 # argument shell
 project=$1
 user=$2
 passwd=$3
-git=$4
+domain=$4
 
 # move to publication dir
 cd /var/www
 
 # check if the project name exists and create it if not
-if [ ! -d "$project".com ]; then
-  mkdir "$project".com
+if [ ! -d "$project"."$domain" ]; then
+  mkdir "$project"."$domain"
 
   # on copie le rep du script d'install php (https://github.com/GeekPress/WP-Quick-Install)
   # j'ai ici renomé le dossier en wp-install et l'ai déposé à la racine du rep de publication
-  cp -R /var/www/wp-install /var/www/"$1".com/
+  cp -R /var/www/wp-install /var/www/"$1"."$domain"/
 
   # on créé la base du nom du projet
   mysql -u "$user" -p"$passwd" -e "CREATE DATABASE "$project""
@@ -33,25 +33,25 @@ if [ ! -d "$project".com ]; then
 
 
   # on créé un fichier virtualhost du nom du projet
-  cp /etc/apache2/sites-available/base_wp /etc/apache2/sites-available/"$project".com
+  cp /etc/apache2/sites-available/base_wp /etc/apache2/sites-available/"$project"."$domain"
 
   # remplacement de BASE et DOMAINE dans le fichier créé
-  sed -i "s/BASE/"$project".com/g" /etc/apache2/sites-available/"$project".com
+  sed -i "s/BASE/"$project".com/g" /etc/apache2/sites-available/"$project"."$domain"
 
   # activation du site
   cd /etc/apache2/sites-available/
-  a2ensite "$project".com
+  a2ensite "$project"."$domain"
 
   # recharge apache
   /etc/init.d/apache2 reload
 
   # Changer les droits
-  chown -R www-data /var/www/"$project".com
-  chmod -R 775 /var/www/"$project".com
+  chown -R www-data /var/www/"$project"."$domain"
+  chmod -R 775 /var/www/"$project"."$domain"
 
   # Ecrire un htaccess
 
-  cat > /var/www/"$project".com/.htaccess <<EOF
+  cat > /var/www/"$project"."$domain"/.htaccess <<EOF
 ## ******** protection des sauvegardes SQL **********
 <FilesMatch "\.sql">
 Order allow,deny
@@ -94,11 +94,12 @@ RewriteRule (.*) http://www.mon-site.com [R=301,L]
 Options -Indexes
 EOF
 
-  # remplacement de monsite.com par le DOMAINE dans le fichier htaccess créé
-  sed -i "s/mon-site.com/"$project".com/g" /var/www/"$project".com/.htaccess
+  # remplacement de monsite puis .com par le PROJET puis DOMAIN dans le fichier htaccess créé
+  sed -i "s/mon-site/""$project""/g" /var/www/"$project"."$domain"/.htaccess
+  sed -i "s/.com/""$domain""/g" /var/www/"$project"."$domain"/.htaccess
 
   # Ecrire un htaccess inactivant les php dans uploads
-  cat > /var/www/"$project".com/wp-content/uploads/.htaccess <<EOF
+  cat > /var/www/"$project"."$domain"/wp-content/uploads/.htaccess <<EOF
 <Files *.php>
 deny from all
 </Files>
@@ -106,7 +107,7 @@ EOF
 
 
   # ecrire un gitignore
-  cat > /var/www/"$project".com/.gitignore <<EOF
+  cat > /var/www/"$project"."$domain"/.gitignore <<EOF
 wp-config.php
 # ignore ts les fichiers commencant par .
 .*
@@ -143,14 +144,14 @@ wp-content/themes/*
 EOF
 
   # Initialiser le repo
-  cd /var/www/"$project".com
-  git init
+  #cd /var/www/"$project"."$domain"
+  #git init
 
   # On initialise le repo
-  git add .
-  git commit -m "initial commit "$projet""
-  git remote add origin https://github.com/"$git"/"$project".git
-  git push origin master
+  #git add .
+  #git commit -m "initial commit "$projet""
+  #git remote add origin https://github.com/"$git"/"$project".git
+  #git push origin master
 
 else
 
